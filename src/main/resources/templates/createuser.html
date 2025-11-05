@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>SPLITit- log ind</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/splitit.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="header">
@@ -16,7 +16,54 @@
 </header>
 
 <main>
+    <div class="create-container">
+        <h1>Opret bruger</h1>
 
+        <form th:action="@{/create-user}" method="post" class="create-form">
+
+            <div class="create-field">
+                <label for="email">Email</label>
+                <input class="create-input" type="email" id="email" name="email"
+                       th:value="${email}" placeholder="din@email.dk" required>
+            </div>
+
+            <div class="create-field">
+                <label for="username">Brugernavn</label>
+                <input class="create-input" type="text" id="username" name="userName"
+                       th:value="${userName}" placeholder="Brugernavn" required>
+            </div>
+
+            <div class="create-field">
+                <label for="password1">Kodeord</label>
+                <input class="create-input" type="password" id="password1" name="password1"
+                       placeholder="⁕⁕⁕⁕⁕⁕⁕⁕" required>
+                <div class="tooltip">
+                    Kodeord skal indeholde:<br>
+                    • Min. 8 karakterer<br>
+                    • Min. 1 stort bogstav<br>
+                    • Min. 1 tal
+                </div>
+            </div>
+
+            <div class="create-field">
+                <label for="password2">Gentag kodeord</label>
+                <input class="create-input" type="password" id="password2" name="password2"
+                       placeholder="⁕⁕⁕⁕⁕⁕⁕⁕" required>
+            </div>
+
+
+            <button type="submit">Opret Bruger</button>
+
+        </form>
+
+        <div th:if="${errorMessage != null}" class="error-succes-label">
+            <p id="error-message" class="error" th:text="${errorMessage}"></p>
+        </div>
+        <div th:if="${session.succesMessage}" class="error-succes-label">
+            <p class="success" th:text="${session.succesMessage}"></p>
+        </div>
+
+    </div>
 
 </main>
 

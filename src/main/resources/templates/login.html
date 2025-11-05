@@ -15,8 +15,43 @@
     </nav>
 </header>
 
-<main class="main">
+<main>
+    <main>
+        <div class="login-container">
+            <h1>Velkommen til SPLITit</h1>
+            <h2>Log ind eller opret en konto</h2>
 
+            <form th:action="@{/login}" method="post" class="login-form">
+                <div class="login-field">
+                    <label for="email">Email</label>
+                    <input class="login-input" type="text" placeholder="din@email.dk" id="email" name="email">
+                </div>
+
+                <div class="login-field">
+                    <label for="password">Kodeord</label>
+                    <input class="login-input" type="password" placeholder="⁕⁕⁕⁕⁕⁕⁕⁕" id="password" name="password">
+                </div>
+
+                <button type="submit">Log in</button>
+            </form>
+
+            <div th:if="${errorMessage != null}" class="error-succes-label">
+                <p id="error-message" class="error"
+                   th:if="${errorMessage != null}"
+                   th:text="${errorMessage}">
+                </p>
+            </div>
+
+            <div th:if="${session.succesMessage}" class="error-succes-label">
+                <p class="success" th:if="${session.succesMessage}" th:text="${session.succesMessage}"></p>
+            </div>
+
+            <div class="createaccount-link">
+                <label for="createuser">Ingen Konto?</label>
+                <a th:href="@{/create-user}" id="createuser">Opret en her!</a>
+            </div>
+        </div>
+    </main>
 
 </main>
 
