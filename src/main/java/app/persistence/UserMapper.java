@@ -12,11 +12,15 @@ import java.util.List;
 
 public class UserMapper
 {
+    private ConnectionPool connectionPool;
 
-    public static User login(String userName, String password) throws DatabaseException
+    public UserMapper(ConnectionPool connectionPool)
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        this.connectionPool = connectionPool;
+    }
 
+    public User login(String email, String password) throws DatabaseException
+    {
         String sql = "select * from public.\"users\" where username=? and password=?";
 
         try (
@@ -24,15 +28,16 @@ public class UserMapper
                 PreparedStatement ps = connection.prepareStatement(sql)
         )
         {
-            ps.setString(1, userName);
+            ps.setString(1, email);
             ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
                 int id = rs.getInt("user_id");
+                String userName = rs.getString("username");
                 String role = rs.getString("role");
-                return new User(id, userName, password, role);
+                return buildUser(id, email, userName, password, role);
             } else
             {
                 throw new DatabaseException("Fejl i login. Prøv igen");
@@ -44,20 +49,18 @@ public class UserMapper
         }
     }
 
-    public static void createuser(String userName, String password) throws DatabaseException
+    public void createuser(String email, String userName, String hashedPassword) throws DatabaseException
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-
-
-        String sql = "insert into users (username, password) values (?,?)";
+        String sql = "insert into users (email, username, password) values (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         )
         {
-            ps.setString(1, userName);
-            ps.setString(2, password);
+            ps.setString(1, email);
+            ps.setString(2, userName);
+            ps.setString(3, hashedPassword);
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1)
@@ -72,14 +75,12 @@ public class UserMapper
             {
                 msg = "Brugernavnet findes allerede. Vælg et andet";
             }
-            throw new DatabaseException(msg, e.getMessage());
+            throw new DatabaseException(msg);
         }
     }
 
-    public static List<User> getAllUsers() throws DatabaseException
+    public List<User> getAllUsers() throws DatabaseException
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-
         List<User> users = new ArrayList<>();
         String sql = "SELECT * from users";
 
@@ -93,11 +94,12 @@ public class UserMapper
             while (rs.next())
             {
                 int userId = rs.getInt("user_id");
+                String email = rs.getString("email");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
                 String role = rs.getString("role");
 
-                users.add(new User(userId,username,password, role));
+                users.add(buildUser(userId, email, username, password, role));
             }
         }
         catch (SQLException e)
@@ -107,7 +109,7 @@ public class UserMapper
         return users;
     }
 
-    public static User getUserById(int userId) throws DatabaseException
+    public User getUserById(int userId) throws DatabaseException
     {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -122,16 +124,27 @@ public class UserMapper
 
             if (rs.next()) {
                 int id = rs.getInt("user_id");
+                String email = rs.getString("email");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
                 String role = rs.getString("role");
 
-                user = new User(id, username, password, role);
+                user = buildUser(id, email, username, password, role);
             }
 
         } catch (SQLException e) {
             throw new DatabaseException("Fejl ved hentning af bruger med id " + userId + ": " + e.getMessage());
         }
         return user;
+    }
+
+    private User buildUser(int userId, String email, String userName, String password, String role){
+        return new User(
+                userId,
+                email,
+                userName,
+                password,
+                role
+        );
     }
 }
