@@ -1,4 +1,4 @@
-package app.entities.splitit;
+package app.entities;
 
 import java.sql.Timestamp;
 import java.util.Objects;

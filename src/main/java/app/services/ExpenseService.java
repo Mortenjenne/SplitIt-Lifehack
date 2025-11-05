@@ -1,7 +1,7 @@
-package app.services.splitit;
+package app.services;
 
 import app.dto.ExpenseDTO;
-import app.entities.splitit.Expense;
+import app.entities.Expense;
 import app.exceptions.DatabaseException;
 
 import java.util.List;

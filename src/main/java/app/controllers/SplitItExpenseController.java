@@ -2,17 +2,16 @@ package app.controllers;
 
 import app.dto.ExpenseDTO;
 import app.entities.User;
-import app.entities.splitit.CurrencyFormatter;
-import app.entities.splitit.Expense;
-import app.entities.splitit.Group;
-import app.entities.splitit.Settlement;
+import app.entities.CurrencyFormatter;
+import app.entities.Expense;
+import app.entities.Group;
+import app.entities.Settlement;
 import app.exceptions.DatabaseException;
-import app.services.splitit.AccountService;
-import app.services.splitit.BalanceService;
-import app.services.splitit.ExpenseService;
+import app.services.AccountService;
+import app.services.BalanceService;
+import app.services.ExpenseService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

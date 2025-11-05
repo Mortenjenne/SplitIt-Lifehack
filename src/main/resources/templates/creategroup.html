@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Create Group - SPLITit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/splitit/splitit.css}"/>
+    <link rel="stylesheet" th:href="@{/css/splitit.css}"/>
 </head>
 <body>
 <header class="header">
     <nav class="header-nav">
-        <a th:href="@{/}" class="logo-link">
-            <img th:src="@{/images/splitit/logo.svg}" alt="Split it logo" class="logo">
+        <a th:href="@{/public}" class="logo-link">
+            <img th:src="@{/images/logo.svg}" alt="Split it logo" class="logo">
         </a>
     </nav>
 </header>
@@ -51,7 +51,7 @@
                                 User Name
                             </option>
                         </select>
-                        <img th:src="@{/images/splitit/arrow.svg}" alt="" class="select-arrow">
+                        <img th:src="@{/images/arrow.svg}" alt="" class="select-arrow">
                     </div>
                     <button type="submit" class="btn btn-primary">ADD</button>
                 </form>
@@ -65,7 +65,7 @@
                         <form th:action="@{/createGroup/removeMember}" method="post" class="delete-form">
                             <input type="hidden" name="userId" th:value="${member.userId}">
                             <button type="submit" class="btn-delete">
-                                <img th:src="@{/images/splitit/bucket.svg}" alt="Delete member" class="delete-icon">
+                                <img th:src="@{/images/bucket.svg}" alt="Delete member" class="delete-icon">
                             </button>
                         </form>
                     </div>
@@ -100,13 +100,13 @@
     <div class="footer-content">
         <p class="footer-item">
             <a href="https://github.com/Mortenjenne" target="_blank" rel="noopener" class="footer-link">
-                <img th:src="@{/images/splitit/github-icon.svg}" alt="Github icon" class="github-icon">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
                 <span>MORTEN JENSEN</span>
             </a>
         </p>
         <p class="footer-item">
             <a href="https://github.com/DHangaard" target="_blank" rel="noopener" class="footer-link">
-                <img th:src="@{/images/splitit/github-icon.svg}" alt="Github icon" class="github-icon">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
                 <span>DANIEL HANGAARD</span>
             </a>
         </p>

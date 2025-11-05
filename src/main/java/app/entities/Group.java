@@ -1,4 +1,4 @@
-package app.entities.splitit;
+package app.entities;
 
 import java.util.Objects;
 

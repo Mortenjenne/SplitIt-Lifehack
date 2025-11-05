@@ -1,4 +1,4 @@
-package app.entities.splitit;
+package app.entities;
 
 public enum Currency {
     DKK("DKK"),

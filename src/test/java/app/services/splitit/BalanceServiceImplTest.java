@@ -2,9 +2,8 @@ package app.services.splitit;
 
 import app.dto.UserBalanceDTO;
 import app.entities.User;
-import app.entities.splitit.Expense;
-import app.entities.splitit.Settlement;
-import org.junit.jupiter.api.BeforeEach;
+import app.entities.Expense;
+import app.entities.Settlement;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

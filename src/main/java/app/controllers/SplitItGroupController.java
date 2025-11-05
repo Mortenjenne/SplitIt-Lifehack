@@ -1,14 +1,12 @@
 package app.controllers;
 
 import app.entities.User;
-import app.entities.splitit.Group;
+import app.entities.Group;
 import app.exceptions.DatabaseException;
-import app.services.splitit.AccountService;
+import app.services.AccountService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 

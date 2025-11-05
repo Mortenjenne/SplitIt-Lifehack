@@ -1,6 +1,6 @@
 package app.dto;
 
-import app.entities.splitit.CurrencyFormatter;
+import app.entities.CurrencyFormatter;
 
 import java.sql.Timestamp;
 import java.time.Duration;

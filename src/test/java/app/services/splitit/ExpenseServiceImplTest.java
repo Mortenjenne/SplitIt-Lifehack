@@ -1,13 +1,7 @@
 package app.services.splitit;
 
-import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.splitit.ExpenseMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,9 @@
 package app.persistence.splitit;
 
-import app.entities.splitit.Expense;
+import app.entities.Expense;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.ExpenseMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

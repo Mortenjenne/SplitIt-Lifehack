@@ -1,13 +1,13 @@
-package app.services.splitit;
+package app.services;
 
 import app.dto.ExpenseDTO;
 import app.entities.User;
-import app.entities.splitit.Expense;
-import app.entities.splitit.Group;
+import app.entities.Expense;
+import app.entities.Group;
 import app.exceptions.DatabaseException;
 import app.persistence.UserMapper;
-import app.persistence.splitit.ExpenseMapper;
-import app.persistence.splitit.GroupMapper;
+import app.persistence.ExpenseMapper;
+import app.persistence.GroupMapper;
 
 import java.util.Comparator;
 import java.util.List;

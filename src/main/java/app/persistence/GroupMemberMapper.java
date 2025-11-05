@@ -1,9 +1,8 @@
-package app.persistence.splitit;
+package app.persistence;
 
-import app.entities.splitit.Group;
+import app.entities.Group;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,12 +1,13 @@
-package app.services.splitit;
+package app.services;
 
 import app.dto.UserBalanceDTO;
 import app.entities.User;
-import app.entities.splitit.Expense;
-import app.entities.splitit.Settlement;
+import app.entities.Expense;
+import app.entities.Settlement;
 import app.exceptions.DatabaseException;
-import app.persistence.splitit.ExpenseMapper;
-import app.persistence.splitit.GroupMemberMapper;
+import app.persistence.ExpenseMapper;
+import app.persistence.GroupMemberMapper;
+import app.services.BalanceService;
 
 import java.util.ArrayList;
 import java.util.List;

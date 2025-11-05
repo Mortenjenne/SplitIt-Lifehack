@@ -3,10 +3,10 @@ package app;
 import app.config.ThymeleafConfig;
 import app.controllers.*;
 import app.persistence.ConnectionPool;
-import app.persistence.splitit.ExpenseMapper;
-import app.persistence.splitit.GroupMapper;
-import app.persistence.splitit.GroupMemberMapper;
-import app.services.splitit.*;
+import app.persistence.ExpenseMapper;
+import app.persistence.GroupMapper;
+import app.persistence.GroupMemberMapper;
+import app.services.*;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -21,19 +21,15 @@ public class Main
 
     public static void main(String[] args)
     {
-        // Initializing Javalin and Jetty webserver
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
             config.staticFiles.add("/templates");
         }).start(7070);
 
-        // Routing
         app.get("/", ctx -> ctx.render("index.html"));
         UserController.addRoutes(app);
-        TimeZonesController.addRoutes(app);
-
-        // SPLITit
+        
         ExpenseMapper expenseMapper = new ExpenseMapper(connectionPool);
         GroupMapper groupMapper = new GroupMapper(connectionPool);
         GroupMemberMapper groupMemberMapper = new GroupMemberMapper(connectionPool);

@@ -1,9 +1,10 @@
 package app.persistence.splitit;
 
-import app.entities.splitit.Group;
+import app.entities.Group;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.GroupMemberMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

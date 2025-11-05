@@ -1,7 +1,7 @@
-package app.services.splitit;
+package app.services;
 
-import app.entities.splitit.Group;
 import app.entities.User;
+import app.entities.Group;
 import app.exceptions.DatabaseException;
 
 import java.util.List;
