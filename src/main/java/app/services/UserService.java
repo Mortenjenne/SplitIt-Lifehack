@@ -9,7 +9,7 @@ public interface UserService
 {
     public UserDTO authenticate(String email, String password) throws DatabaseException;
 
-    public UserDTO registerUser(CreateUserRequestDTO createUserRequestDTO) throws DatabaseException;
+    public boolean registerUser(CreateUserRequestDTO createUserRequestDTO) throws DatabaseException;
 
     public UserDTO getUserById(int userId) throws DatabaseException;
 

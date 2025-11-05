@@ -49,9 +49,10 @@ public class UserMapper
         }
     }
 
-    public void createuser(String email, String userName, String hashedPassword) throws DatabaseException
+    public boolean createuser(String email, String userName, String hashedPassword) throws DatabaseException
     {
         String sql = "insert into users (email, username, password) values (?,?)";
+        boolean result = false;
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -67,6 +68,10 @@ public class UserMapper
             {
                 throw new DatabaseException("Fejl ved oprettelse af ny bruger");
             }
+            else
+            {
+                result = true;
+            }
         }
         catch (SQLException e)
         {
@@ -77,6 +82,7 @@ public class UserMapper
             }
             throw new DatabaseException(msg);
         }
+        return result;
     }
 
     public List<User> getAllUsers() throws DatabaseException
