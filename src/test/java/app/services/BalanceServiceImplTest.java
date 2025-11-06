@@ -5,9 +5,7 @@ import app.entities.User;
 import app.entities.Expense;
 import app.entities.Settlement;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BalanceServiceImplTest {

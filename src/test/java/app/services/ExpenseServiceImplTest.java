@@ -1,9 +1,7 @@
-package app.services.splitit;
+package app.services;
 
-import app.services.ExpenseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpenseServiceImplTest {
