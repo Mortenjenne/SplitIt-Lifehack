@@ -25,7 +25,6 @@ public class Main
         }).start(7070);
 
         app.get("/", ctx -> ctx.render("index.html"));
-        UserController.addRoutes(app);
 
         ExpenseMapper expenseMapper = new ExpenseMapper(connectionPool);
         GroupMapper groupMapper = new GroupMapper(connectionPool);
@@ -38,10 +37,11 @@ public class Main
         UserService userService = new UserServiceImpl(userMapper);
 
         UserController userController = new UserController(userService);
-        GroupController splitItGroupController = new GroupController(accountService);
-        ExpenseController splitItExpenseController = new ExpenseController(expenseService,balanceService,accountService);
+        GroupController groupController = new GroupController(accountService);
+        ExpenseController expenseController = new ExpenseController(expenseService,balanceService,accountService);
 
-        splitItGroupController.addRoutes(app);
-        splitItExpenseController.addRoutes(app);
+        groupController.addRoutes(app);
+        expenseController.addRoutes(app);
+        userController.addRoutes(app);
     }
 }

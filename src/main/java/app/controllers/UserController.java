@@ -13,7 +13,7 @@ public class UserController
         this.userService = userService;
     }
 
-    public static void addRoutes(Javalin app)
+    public void addRoutes(Javalin app)
     {
         app.get("logout", ctx -> logout(ctx));
         app.get("createuser", ctx -> ctx.render("creategroup.html"));
