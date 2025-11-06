@@ -24,8 +24,6 @@ public class Main
             config.staticFiles.add("/templates");
         }).start(7070);
 
-        app.get("/", ctx -> ctx.render("index.html"));
-
         ExpenseMapper expenseMapper = new ExpenseMapper(connectionPool);
         GroupMapper groupMapper = new GroupMapper(connectionPool);
         GroupMemberMapper groupMemberMapper = new GroupMemberMapper(connectionPool);

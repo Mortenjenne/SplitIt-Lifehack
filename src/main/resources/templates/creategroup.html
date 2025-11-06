@@ -29,7 +29,7 @@
             <h2 class="section-heading">Create a group</h2>
 
             <!-- Group Name Input (only show if not set yet) -->
-            <form th:action="@{/createGroup/setName}" method="post" th:if="${groupName == null}" class="name-form">
+            <form th:action="@{/create-group/setName}" method="post" th:if="${groupName == null}" class="name-form">
                 <input type="text" name="groupName" placeholder="Group name" required class="group-input">
                 <button type="submit" class="btn btn-primary">ADD</button>
             </form>
@@ -41,7 +41,7 @@
 
             <!-- Add Members Form (only show after name is set) -->
             <div th:if="${groupName != null}">
-                <form th:action="@{/createGroup/addMember}" method="post" class="selector-form">
+                <form th:action="@{/create-group/addMember}" method="post" class="selector-form">
                     <div class="select-wrapper">
                         <select name="userId" id="userSelect" class="group-select" required>
                             <option value="" disabled selected>Choose groupmember from list</option>
@@ -62,7 +62,7 @@
                 <div class="member-list" th:if="${addedMembers != null and !addedMembers.empty}">
                     <div class="member-item" th:each="member : ${addedMembers}">
                         <h4 class="member-name" th:text="${member.userName}">Name</h4>
-                        <form th:action="@{/createGroup/removeMember}" method="post" class="delete-form">
+                        <form th:action="@{/create-group/removeMember}" method="post" class="delete-form">
                             <input type="hidden" name="userId" th:value="${member.userId}">
                             <button type="submit" class="btn-delete">
                                 <img th:src="@{/images/bucket.svg}" alt="Delete member" class="delete-icon">
@@ -77,7 +77,7 @@
                 </p>
 
                 <!-- Final Create Button -->
-                <form th:action="@{/createGroup/create}" method="post">
+                <form th:action="@{/create-group/create}" method="post">
                     <button type="submit" class="btn btn-primary"
                             th:disabled="${addedMembers == null or addedMembers.empty}">
                         CREATE
@@ -87,7 +87,7 @@
         </div>
         <!-- Cancel Link -->
         <div class="link-section">
-            <a th:href="@{/createGroup/cancel}" class="create-link">Cancel</a>
+            <a th:href="@{/create-group/cancel}" class="create-link">Cancel</a>
         </div>
         <!-- Error Message -->
         <div class="error-message" th:if="${errorMessage != null}">
