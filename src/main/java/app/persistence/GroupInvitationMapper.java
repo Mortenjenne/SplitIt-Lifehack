@@ -3,7 +3,6 @@ package app.persistence;
 import app.entities.GroupInvitation;
 import app.entities.Status;
 import app.exceptions.DatabaseException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
