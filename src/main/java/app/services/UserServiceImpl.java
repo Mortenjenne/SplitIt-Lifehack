@@ -20,7 +20,15 @@ public class UserServiceImpl implements UserService
 
     @Override
     public UserDTO authenticate(String email, String password) throws DatabaseException {
-        return null;
+        User user = userMapper.login(email, password);
+        if (user != null && BCrypt.checkpw(password, user.getPassword()))
+        {
+            return buildUserDTO(user);
+        }
+        else
+        {
+            throw new DatabaseException("Forkert email eller password");
+        }
     }
 
     @Override
@@ -42,7 +50,15 @@ public class UserServiceImpl implements UserService
 
     @Override
     public UserDTO getUserById(int userId) throws DatabaseException {
-        return null;
+        User user = userMapper.getUserById(userId);
+        if (user != null)
+        {
+            return buildUserDTO(user);
+        }
+        else
+        {
+            throw new DatabaseException("Kunne ikke finde brugeren i databasen");
+        }
     }
 
     @Override

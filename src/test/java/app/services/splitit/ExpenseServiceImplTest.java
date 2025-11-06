@@ -1,5 +1,6 @@
 package app.services.splitit;
 
+import app.services.ExpenseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class ExpenseServiceImplTest {
 
         @BeforeEach
         void setUp() {
-            expenseService = new ExpenseServiceImpl(null,null);
+            expenseService = new ExpenseServiceImpl(null,null,null);
         }
 
         @Test

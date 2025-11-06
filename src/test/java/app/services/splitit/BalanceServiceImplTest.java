@@ -1,4 +1,4 @@
-package app.services.splitit;
+package app.services;
 
 import app.dto.UserBalanceDTO;
 import app.entities.User;
@@ -17,8 +17,8 @@ class BalanceServiceImplTest {
     void testCalculateTwoUserBalances()
     {
         List<User> users = List.of(
-                new User(1, "Alice", "alice@test.com", "pass"),
-                new User(2, "Bob", "bob@test.com", "pass")
+                new User(1, "test@test.dk", "Alice", "alice@test.com", "pass"),
+                new User(2, "test@test.dk", "Bob", "bob@test.com", "pass")
         );
 
         List<Expense> expenses = List.of(
@@ -49,9 +49,9 @@ class BalanceServiceImplTest {
             BalanceServiceImpl service = new BalanceServiceImpl(null, null);
 
             List<User> users = List.of(
-                    new User(1, "Alice", "alice@test.com", "pass"),
-                    new User(2, "Bob", "bob@test.com", "pass"),
-                    new User(3, "Charlie", "charlie@test.com", "pass")
+                    new User(1, "test@test.dk", "Alice", "alice@test.com", "pass"),
+                    new User(2, "test@test.dk",  "Bob", "bob@test.com", "pass"),
+                    new User(3, "test@test.dk",  "Charlie", "charlie@test.com", "pass")
             );
 
             List<Expense> expenses = List.of(

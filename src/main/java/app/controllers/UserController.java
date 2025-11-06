@@ -1,51 +1,41 @@
 package app.controllers;
 
-import app.entities.User;
-import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.UserMapper;
+import app.services.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 public class UserController
 {
+    private UserService userService;
+
+    public UserController(UserService userService)
+    {
+        this.userService = userService;
+    }
+
     public static void addRoutes(Javalin app)
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-
-        app.post("login", ctx -> login(ctx));
         app.get("logout", ctx -> logout(ctx));
         app.get("createuser", ctx -> ctx.render("creategroup.html"));
+
+        app.post("login", ctx -> login(ctx));
         app.post("createuser", ctx -> createUser(ctx));
     }
 
     private static void createUser(Context ctx)
     {
-        // Hent form parametre
+        String email = ctx.formParam("email");
         String username = ctx.formParam("username");
         String password1 = ctx.formParam("password1");
         String password2 = ctx.formParam("password2");
 
-        if (password1.equals(password2))
-        {
-            try
-            {
-                UserMapper.createuser(username, password1);
-                ctx.attribute("message", "Du er hermed oprettet med brugernavn: " + username +
-                        ". Nu skal du logge på.");
+                ctx.attribute("message", "Du er hermed oprettet med brugernavn: " + username + ". Nu skal du logge på.");
                 ctx.render("index.html");
-            }
-
-            catch (DatabaseException e)
-            {
                 ctx.attribute("message", "Dit brugernavn findes allerede. Prøv igen, eller log ind");
                 ctx.render("creategroup.html");
-            }
-        } else
-        {
             ctx.attribute("message", "Dine to passwords matcher ikke! Prøv igen");
             ctx.render("creategroup.html");
-        }
+
 
     }
 
@@ -58,28 +48,10 @@ public class UserController
 
     public static void login(Context ctx)
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-
-        // Hent form parametre
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
 
-        // Check om bruger findes i DB med de angivne username + password
-        try
-        {
-            User user = UserMapper.login(username, password);
-            ctx.sessionAttribute("currentUser", user);
-            // Hvis ja, send videre til forsiden med login besked
-            ctx.attribute("message", "Du er nu logget ind");
-            ctx.render("index.html");
-        }
-        catch (DatabaseException e)
-        {
-            // Hvis nej, send tilbage til login side med fejl besked
-            ctx.attribute("message", e.getMessage() );
-            ctx.render("index.html");
-        }
 
     }
 }

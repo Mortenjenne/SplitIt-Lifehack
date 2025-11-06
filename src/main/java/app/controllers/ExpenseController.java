@@ -16,12 +16,12 @@ import io.javalin.http.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplitItExpenseController {
+public class ExpenseController {
     private ExpenseService expenseService;
     private BalanceService balanceService;
     private AccountService accountService;
 
-    public SplitItExpenseController(ExpenseService expenseService, BalanceService balanceService,AccountService accountService)
+    public ExpenseController(ExpenseService expenseService, BalanceService balanceService, AccountService accountService)
     {
         this.expenseService = expenseService;
         this.balanceService = balanceService;

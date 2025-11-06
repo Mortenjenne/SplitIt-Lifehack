@@ -2,10 +2,7 @@ package app;
 
 import app.config.ThymeleafConfig;
 import app.controllers.*;
-import app.persistence.ConnectionPool;
-import app.persistence.ExpenseMapper;
-import app.persistence.GroupMapper;
-import app.persistence.GroupMemberMapper;
+import app.persistence.*;
 import app.services.*;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -33,13 +30,16 @@ public class Main
         ExpenseMapper expenseMapper = new ExpenseMapper(connectionPool);
         GroupMapper groupMapper = new GroupMapper(connectionPool);
         GroupMemberMapper groupMemberMapper = new GroupMemberMapper(connectionPool);
+        UserMapper userMapper = new UserMapper(connectionPool);
 
-        AccountService accountService = new AccountServiceImpl(groupMapper,groupMemberMapper);
+        AccountService accountService = new AccountServiceImpl(userMapper, groupMapper, groupMemberMapper);
         BalanceService balanceService = new BalanceServiceImpl(expenseMapper, groupMemberMapper);
-        ExpenseService expenseService = new ExpenseServiceImpl(expenseMapper, groupMapper);
+        ExpenseService expenseService = new ExpenseServiceImpl(userMapper, expenseMapper, groupMapper);
+        UserService userService = new UserServiceImpl(userMapper);
 
-        SplitItGroupController splitItGroupController = new SplitItGroupController(accountService);
-        SplitItExpenseController splitItExpenseController = new SplitItExpenseController(expenseService,balanceService,accountService);
+        UserController userController = new UserController(userService);
+        GroupController splitItGroupController = new GroupController(accountService);
+        ExpenseController splitItExpenseController = new ExpenseController(expenseService,balanceService,accountService);
 
         splitItGroupController.addRoutes(app);
         splitItExpenseController.addRoutes(app);

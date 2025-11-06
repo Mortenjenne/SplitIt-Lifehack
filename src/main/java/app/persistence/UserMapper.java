@@ -21,7 +21,8 @@ public class UserMapper
 
     public User login(String email, String password) throws DatabaseException
     {
-        String sql = "select * from public.\"users\" where username=? and password=?";
+        String sql = "SELECT * FROM users WHERE email=? AND password=?";
+
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -36,8 +37,10 @@ public class UserMapper
             {
                 int id = rs.getInt("user_id");
                 String userName = rs.getString("username");
+                String mail = rs.getString("email");
+                String passwordFromDB = rs.getString("password");
                 String role = rs.getString("role");
-                return buildUser(id, email, userName, password, role);
+                return buildUser(id, mail, userName, passwordFromDB, role);
             } else
             {
                 throw new DatabaseException("Fejl i login. Prøv igen");
@@ -51,7 +54,7 @@ public class UserMapper
 
     public boolean createuser(String email, String userName, String hashedPassword) throws DatabaseException
     {
-        String sql = "insert into users (email, username, password) values (?,?)";
+        String sql = "insert into users (email, username, password) values (?, ?, ?)";
         boolean result = false;
 
         try (
@@ -117,10 +120,8 @@ public class UserMapper
 
     public User getUserById(int userId) throws DatabaseException
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-
         User user = null;
-        String sql = "SELECT user_id, username, password, role FROM users WHERE user_id = ?";
+        String sql = "SELECT user_id, email, username, password, role FROM users WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

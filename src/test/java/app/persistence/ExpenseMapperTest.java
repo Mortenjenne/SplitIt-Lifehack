@@ -1,18 +1,14 @@
-package app.persistence.splitit;
+package app.persistence;
 
 import app.entities.Expense;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.ExpenseMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpenseMapperTest {
@@ -25,7 +21,7 @@ class ExpenseMapperTest {
                 "postgres",
                 "postgres",
                 "jdbc:postgresql://localhost:5432/spiltit?currentSchema=test",
-                "lifehack"
+                "split-it"
         );
 
         try (Connection con = testPool.getConnection();

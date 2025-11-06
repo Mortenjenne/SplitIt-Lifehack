@@ -13,10 +13,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ExpenseServiceImpl implements ExpenseService {
+    private UserMapper userMapper;
     private ExpenseMapper expenseMapper;
     private GroupMapper groupMapper;
 
-    public ExpenseServiceImpl(ExpenseMapper expenseMapper, GroupMapper groupMapper) {
+    public ExpenseServiceImpl(UserMapper userMapper, ExpenseMapper expenseMapper, GroupMapper groupMapper) {
+        this.userMapper = userMapper;
         this.expenseMapper = expenseMapper;
         this.groupMapper = groupMapper;
     }
@@ -29,7 +31,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         if (groupMapper.getGroupById(groupId) == null) {
             throw new DatabaseException("Group does not exist");
         }
-        if (UserMapper.getUserById(userId) == null) {
+        if (userMapper.getUserById(userId) == null) {
             throw new DatabaseException("User does not exist");
         }
 
@@ -39,7 +41,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public ExpenseDTO getExpenseById(int expenseId) throws DatabaseException {
         Expense expense = expenseMapper.getExpenseById(expenseId);
-        User user = UserMapper.getUserById(expense.getUserId());
+        User user = userMapper.getUserById(expense.getUserId());
         Group group = groupMapper.getGroupById(expense.getGroupId());
 
         return new ExpenseDTO(
@@ -83,7 +85,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                                 expense.getDescription(),
                                 expense.getAmount(),
                                 expense.getCreatedAt(),
-                                UserMapper.getUserById(expense.getUserId()).getUserName(),
+                                userMapper.getUserById(expense.getUserId()).getUserName(),
                                 group.getName()
                         );
                     } catch (DatabaseException e) {
@@ -98,7 +100,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<ExpenseDTO> getExpensesByUserId(int userId) throws DatabaseException
     {
         List<Expense> expenses = expenseMapper.getExpensesByUserId(userId);
-        User user = UserMapper.getUserById(userId);
+        User user = userMapper.getUserById(userId);
 
         return expenses.stream()
                 .map(expense -> {
@@ -123,7 +125,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<ExpenseDTO> getExpensesByUserAndGroup(int userId, int groupId) throws DatabaseException {
         List<Expense> expenses = expenseMapper.getExpensesByUserAndGroup(userId,groupId);
-        User user = UserMapper.getUserById(userId);
+        User user = userMapper.getUserById(userId);
         Group group = groupMapper.getGroupById(groupId);
 
         return expenses.stream()
