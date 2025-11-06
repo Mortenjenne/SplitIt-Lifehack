@@ -18,7 +18,12 @@
             <h3 class="tagline">Your expense splitter</h3>
         </div>
 
+        <div th:if="${session.currentUser == null}">
+            <h2>Log på for at bruge SplitIt og inviter venner til din gruppe</h2>
+        </div>
+
         <!-- Group Selector Section -->
+        <div th:if="${session.currentUser != null}">
         <div class="selector-section">
             <h2 class="section-heading">Choose / create a group</h2>
 
@@ -42,6 +47,8 @@
         <!-- Create Group Link -->
         <div class="link-section">
             <a th:href="@{/splitit/createGroup}" class="create-link">Create a group</a>
+        </div>
+
         </div>
 
         <!-- Error Message -->

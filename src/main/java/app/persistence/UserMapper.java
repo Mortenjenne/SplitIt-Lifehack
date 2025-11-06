@@ -23,7 +23,6 @@ public class UserMapper
     {
         String sql = "SELECT * FROM users WHERE email= ?";
 
-
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)

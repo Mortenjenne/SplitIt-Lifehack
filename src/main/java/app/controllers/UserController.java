@@ -9,7 +9,6 @@ import app.views.ViewPaths;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-
 public class UserController
 {
     private UserService userService;

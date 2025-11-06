@@ -102,7 +102,7 @@ class UserMapperTest {
 
     @Test
     void testLoginSuccess() throws DatabaseException {
-        User user = userMapper.login("morten@example.com", "abcd");
+        User user = userMapper.login("morten@example.com");
         assertNotNull(user);
         assertEquals("morten@example.com", user.getEmail());
     }
@@ -110,7 +110,7 @@ class UserMapperTest {
     @Test
     void testLoginFailure() {
         assertThrows(DatabaseException.class, () -> {
-            userMapper.login("Morten", "forkertKode");
+            userMapper.login("Morten");
         });
     }
 }
