@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>SPLITit- log ind</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/splitit.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="header">
@@ -42,9 +42,10 @@
                 </p>
             </div>
 
-            <div th:if="${session.succesMessage}" class="error-succes-label">
-                <p class="success" th:if="${session.succesMessage}" th:text="${session.succesMessage}"></p>
+            <div th:if="${session.successMessage}" class="error-success-label">
+                <p class="success" th:text="${session.successMessage}"></p>
             </div>
+
 
             <div class="createaccount-link">
                 <label for="createuser">Ingen Konto?</label>

@@ -1,8 +1,14 @@
 package app.controllers;
 
+import app.dto.CreateUserRequestDTO;
+import app.dto.UserDTO;
+import app.exceptions.DatabaseException;
 import app.services.UserService;
+import app.routes.Path;
+import app.views.ViewPaths;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
 
 public class UserController
 {
@@ -15,42 +21,94 @@ public class UserController
 
     public void addRoutes(Javalin app)
     {
-        app.get("logout", ctx -> logout(ctx));
-        app.get("createuser", ctx -> ctx.render("creategroup.html"));
+        app.get(Path.LOGIN, ctx -> renderLoginPage(ctx));
+        app.get(Path.CREATE_USER, ctx -> renderCreateUserPage(ctx));
+        app.get(Path.LOGOUT, ctx -> handleLogout(ctx));
 
-        app.post("login", ctx -> login(ctx));
-        app.post("createuser", ctx -> createUser(ctx));
+
+        app.post(Path.LOGIN, ctx -> handleLoginSubmit(ctx));
+        app.post(Path.CREATE_USER, ctx -> handleCreateUserSubmit(ctx));
     }
 
-    private static void createUser(Context ctx)
+    private void renderCreateUserPage(Context ctx)
     {
-        String email = ctx.formParam("email");
-        String username = ctx.formParam("username");
-        String password1 = ctx.formParam("password1");
-        String password2 = ctx.formParam("password2");
-
-                ctx.attribute("message", "Du er hermed oprettet med brugernavn: " + username + ". Nu skal du logge på.");
-                ctx.render("index.html");
-                ctx.attribute("message", "Dit brugernavn findes allerede. Prøv igen, eller log ind");
-                ctx.render("creategroup.html");
-            ctx.attribute("message", "Dine to passwords matcher ikke! Prøv igen");
-            ctx.render("creategroup.html");
-
-
+        ctx.render(ViewPaths.CREATE_USER);
     }
 
-    private static void logout(Context ctx)
+    private void renderLoginPage(Context ctx)
+    {
+        ctx.render(ViewPaths.LOGIN);
+    }
+
+    private void handleCreateUserSubmit(Context ctx)
+    {
+        String email = ctx.formParam("email").trim().toLowerCase();
+        String username = ctx.formParam("username").trim();
+        String password1 = ctx.formParam("password1").trim();
+        String password2 =  ctx.formParam("password2").trim();
+
+        CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO(
+                email,
+                username,
+                password1,
+                password2
+        );
+
+        try
+        {
+             if(userService.registerUser(createUserRequestDTO))
+             {
+                 ctx.sessionAttribute("successMessage", "Du har oprettet en bruger. Log ind for at bruge appen.");
+                 ctx.redirect("/login");
+             }else
+             {
+                 ctx.sessionAttribute("errorMessage","Kunne ikke oprette en bruger prøv igen");
+                 ctx.render("createuser");
+             }
+
+        } catch (DatabaseException e)
+        {
+            ctx.sessionAttribute("errorMessage",e.getMessage());
+            ctx.render("createuser");
+        } catch (IllegalArgumentException e)
+        {
+            ctx.sessionAttribute(e.getMessage());
+            ctx.render("createuser");
+        }
+    }
+
+    private void handleLogout(Context ctx)
     {
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
 
 
-    public static void login(Context ctx)
+    private void handleLoginSubmit(Context ctx)
     {
+        String email = ctx.formParam("email").trim().toLowerCase();
+        String password = ctx.formParam("password").trim();
 
-        String username = ctx.formParam("username");
-        String password = ctx.formParam("password");
+        System.out.println(email);
+        System.out.println(password);
+
+        try
+        {
+            UserDTO currentUser = userService.authenticate(email, password);
+            if(currentUser != null)
+            {
+                ctx.sessionAttribute("currentUser",currentUser);
+                ctx.redirect("/");
+            }
+            else
+            {
+                ctx.attribute("errorMessage", "Forkert email eller kodeord");
+                ctx.render("login.html");
+            }
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", e.getMessage());
+            ctx.render("login");
+        }
 
 
     }

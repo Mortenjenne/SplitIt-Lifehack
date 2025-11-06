@@ -29,8 +29,7 @@
 
             <div class="create-field">
                 <label for="username">Brugernavn</label>
-                <input class="create-input" type="text" id="username" name="userName"
-                       th:value="${userName}" placeholder="Brugernavn" required>
+                <input class="create-input" type="text" id="username" name="username" th:value="${username}" placeholder="Brugernavn" required>
             </div>
 
             <div class="create-field">
@@ -59,9 +58,10 @@
         <div th:if="${errorMessage != null}" class="error-succes-label">
             <p id="error-message" class="error" th:text="${errorMessage}"></p>
         </div>
-        <div th:if="${session.succesMessage}" class="error-succes-label">
-            <p class="success" th:text="${session.succesMessage}"></p>
+        <div th:if="${session.successMessage}" class="error-success-label">
+            <p class="success" th:text="${session.successMessage}"></p>
         </div>
+
 
     </div>
 

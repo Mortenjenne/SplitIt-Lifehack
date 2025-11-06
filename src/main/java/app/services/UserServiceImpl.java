@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService
 
     @Override
     public UserDTO authenticate(String email, String password) throws DatabaseException {
-        User user = userMapper.login(email, password);
+        User user = userMapper.login(email);
         if (user != null && BCrypt.checkpw(password, user.getPassword()))
         {
             return buildUserDTO(user);

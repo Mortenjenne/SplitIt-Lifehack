@@ -19,9 +19,9 @@ public class UserMapper
         this.connectionPool = connectionPool;
     }
 
-    public User login(String email, String password) throws DatabaseException
+    public User login(String email) throws DatabaseException
     {
-        String sql = "SELECT * FROM users WHERE email=? AND password=?";
+        String sql = "SELECT * FROM users WHERE email= ?";
 
 
         try (
@@ -30,7 +30,6 @@ public class UserMapper
         )
         {
             ps.setString(1, email);
-            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next())
@@ -78,6 +77,8 @@ public class UserMapper
         }
         catch (SQLException e)
         {
+            e.printStackTrace();
+            System.out.println("SQL ERROR MESSAGE: " + e.getMessage());
             String msg = "Der er sket en fejl. Prøv igen";
             if (e.getMessage().startsWith("ERROR: duplicate key value "))
             {
