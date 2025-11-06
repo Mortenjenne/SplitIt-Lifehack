@@ -7,13 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<header class="header">
-    <nav class="header-nav">
-        <a th:href="@{/public}" class="logo-link">
-            <img th:src="@{/images/logo.svg}" alt="Split it logo" class="logo">
-        </a>
-    </nav>
-</header>
+<div th:replace="fragments :: header"></div>
 
 <main class="main">
     <div class="main-container">
@@ -57,21 +51,6 @@
     </div>
 </main>
 
-<footer class="footer">
-    <div class="footer-content">
-        <p class="footer-item">
-            <a href="https://github.com/Mortenjenne" target="_blank" rel="noopener" class="footer-link">
-                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
-                <span>MORTEN JENSEN</span>
-            </a>
-        </p>
-        <p class="footer-item">
-            <a href="https://github.com/DHangaard" target="_blank" rel="noopener" class="footer-link">
-                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
-                <span>DANIEL HANGAARD</span>
-            </a>
-        </p>
-    </div>
-</footer>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!-- Header Fragment -->
-<div th:fragment="headerFragment">
+<div th:fragment="header">
     <header>
         <nav class="header-nav">
             <!-- LEFT SECTION: Logo + Links -->
@@ -24,8 +24,8 @@
                 <!-- Logged in -->
                 <div th:if="${session.currentUser != null}" class="user-actions">
                     <!-- EMAIL here -->
-                    <span class="username" th:text="${session.currentUser.email}"></span>
-                    <a href="profile.html" th:href="@{/user/orders}" class="icon-link">
+                    <span class="username" th:text="${session.currentUser.userName}"></span>
+                    <a href="profile.html" th:href="@{/profile}" class="icon-link">
                         <img src="/images/profile.svg" alt="Min side" th:src="@{/images/profile.svg}">
                         <span>Min side</span>
                     </a>
@@ -39,4 +39,25 @@
             </div>
         </nav>
     </header>
+</div>
+
+
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-item">
+            <a href="https://github.com/Mortenjenne" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>MORTEN JENSEN</span>
+            </a>
+        </p>
+        <p class="footer-item">
+            <a href="https://github.com/DHangaard" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>DANIEL HANGAARD</span>
+            </a>
+        </p>
+    </div>
+</footer>
 </div>
