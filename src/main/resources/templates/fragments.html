@@ -1,0 +1,63 @@
+<!-- Header Fragment -->
+<div th:fragment="header">
+    <header>
+        <nav class="header-nav">
+            <!-- LEFT SECTION: Logo + Links -->
+            <div class="header-left">
+                <a th:href="@{/}" class="logo-link">
+                    <img th:src="@{/images/logo.svg}" alt="Split it logo" class="logo">
+                </a>
+
+            </div>
+
+            <!-- RIGHT SECTION: User actions -->
+            <div class="header-right">
+                <!-- Not logged in -->
+                <a th:if="${session.currentUser == null}"
+                   href="login.html"
+                   th:href="@{/login}"
+                   class="icon-link">
+                    <img src="/images/profile.svg" alt="Login" th:src="@{/images/profile.svg}">
+                    <span>Login</span>
+                </a>
+
+                <!-- Logged in -->
+                <div th:if="${session.currentUser != null}" class="user-actions">
+                    <!-- EMAIL here -->
+                    <span class="username" th:text="${session.currentUser.userName}"></span>
+                    <a href="profile.html" th:href="@{/profile}" class="icon-link">
+                        <img src="/images/profile.svg" alt="Min side" th:src="@{/images/profile.svg}">
+                        <span>Min side</span>
+                    </a>
+
+                    <a href="index.html" th:href="@{/logout}" class="icon-link">
+                        <img src="/images/logout.svg" alt="Log ud" th:src="@{/images/logout.svg}">
+                        <span>Log ud</span>
+                    </a>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+</div>
+
+
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-item">
+            <a href="https://github.com/Mortenjenne" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>MORTEN JENSEN</span>
+            </a>
+        </p>
+        <p class="footer-item">
+            <a href="https://github.com/DHangaard" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>DANIEL HANGAARD</span>
+            </a>
+        </p>
+    </div>
+</footer>
+</div>

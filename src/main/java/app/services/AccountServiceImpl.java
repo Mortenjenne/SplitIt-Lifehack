@@ -6,16 +6,16 @@ import app.exceptions.DatabaseException;
 import app.persistence.UserMapper;
 import app.persistence.GroupMapper;
 import app.persistence.GroupMemberMapper;
-import app.services.AccountService;
-
 import java.util.Comparator;
 import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
+    UserMapper userMapper;
     GroupMapper groupMapper;
     GroupMemberMapper groupMemberMapper;
 
-    public AccountServiceImpl(GroupMapper groupMapper, GroupMemberMapper groupMemberMapper) {
+    public AccountServiceImpl(UserMapper userMapper, GroupMapper groupMapper, GroupMemberMapper groupMemberMapper) {
+        this.userMapper = userMapper;
         this.groupMapper = groupMapper;
         this.groupMemberMapper = groupMemberMapper;
     }
@@ -23,14 +23,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<User> getAllUsers() throws DatabaseException
     {
-        List<User> users = UserMapper.getAllUsers();
+        List<User> users = userMapper.getAllUsers();
         users.stream().sorted(Comparator.comparing(User::getUserName));
         return List.copyOf(users);
     }
 
     @Override
     public User getUserById(int userId) throws DatabaseException {
-        User user = UserMapper.getUserById(userId);
+        User user = userMapper.getUserById(userId);
         if (user == null) {
             throw new DatabaseException("User not found with id: " + userId);
         }
@@ -81,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean addMemberToGroup(int userId, int groupId) throws DatabaseException {
-        User user = UserMapper.getUserById(userId);
+        User user = userMapper.getUserById(userId);
         Group group = groupMapper.getGroupById(groupId);
         if (user == null || group == null) {
             return false;
@@ -112,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Group> getUserGroups(int userId) throws DatabaseException {
-        User user = UserMapper.getUserById(userId);
+        User user = userMapper.getUserById(userId);
         if (user == null) {
             throw new DatabaseException("User not found");
         }

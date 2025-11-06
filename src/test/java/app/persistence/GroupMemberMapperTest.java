@@ -1,10 +1,8 @@
-package app.persistence.splitit;
+package app.persistence;
 
 import app.entities.Group;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.GroupMemberMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +24,7 @@ class GroupMemberMapperTest {
                 "postgres",
                 "postgres",
                 "jdbc:postgresql://localhost:5432/spiltit?currentSchema=test",
-                "spiltit"
+                "spilt-it"
         );
 
         try (Connection con = testPool.getConnection();
@@ -39,6 +37,7 @@ class GroupMemberMapperTest {
 
             stmt.execute("CREATE TABLE test.users (" +
                     "user_id SERIAL PRIMARY KEY," +
+                    "email VARCHAR(50) NOT NULL," +
                     "username VARCHAR(100) NOT NULL," +
                     "password VARCHAR(255) NOT NULL," +
                     "role VARCHAR(20) DEFAULT 'user' NOT NULL," +
@@ -79,12 +78,12 @@ class GroupMemberMapperTest {
             stmt.execute("ALTER SEQUENCE test.users_user_id_seq RESTART WITH 1");
             stmt.execute("ALTER SEQUENCE test.groups_group_id_seq RESTART WITH 1");
 
-            stmt.execute("INSERT INTO test.users (username, password, role) VALUES " +
-                    "('Alice', 'pass123', 'user'), " +
-                    "('Bob', 'pass456', 'user'), " +
-                    "('Charlie', 'pass789', 'user'), " +
-                    "('David', 'pass000', 'user'), " +
-                    "('Eve', 'pass111', 'user')");
+            stmt.execute("INSERT INTO test.users (email, username, password, role) VALUES " +
+                    "('alice@example.com','Alice', 'pass123', 'user'), " +
+                    "('bob@example.com','Bob', 'pass456', 'user'), " +
+                    "('charlie@example.com','Charlie', 'pass789', 'user'), " +
+                    "('david@example.com','David', 'pass000', 'user'), " +
+                    "('eve@example.com','Eve', 'pass111', 'user')");
 
             stmt.execute("INSERT INTO test.groups (name) VALUES " +
                     "('Weekendtur'), " +

@@ -1,85 +1,114 @@
 package app.controllers;
 
-import app.entities.User;
+import app.dto.CreateUserRequestDTO;
+import app.dto.UserDTO;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.UserMapper;
+import app.services.UserService;
+import app.routes.Path;
+import app.views.ViewPaths;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 public class UserController
 {
-    public static void addRoutes(Javalin app)
-    {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private UserService userService;
 
-        app.post("login", ctx -> login(ctx));
-        app.get("logout", ctx -> logout(ctx));
-        app.get("createuser", ctx -> ctx.render("creategroup.html"));
-        app.post("createuser", ctx -> createUser(ctx));
+    public UserController(UserService userService)
+    {
+        this.userService = userService;
     }
 
-    private static void createUser(Context ctx)
+    public void addRoutes(Javalin app)
     {
-        // Hent form parametre
-        String username = ctx.formParam("username");
-        String password1 = ctx.formParam("password1");
-        String password2 = ctx.formParam("password2");
+        app.get(Path.LOGIN, ctx -> renderLoginPage(ctx));
+        app.get(Path.CREATE_USER, ctx -> renderCreateUserPage(ctx));
+        app.get(Path.LOGOUT, ctx -> handleLogout(ctx));
 
-        if (password1.equals(password2))
-        {
-            try
-            {
-                UserMapper.createuser(username, password1);
-                ctx.attribute("message", "Du er hermed oprettet med brugernavn: " + username +
-                        ". Nu skal du logge på.");
-                ctx.render("index.html");
-            }
 
-            catch (DatabaseException e)
-            {
-                ctx.attribute("message", "Dit brugernavn findes allerede. Prøv igen, eller log ind");
-                ctx.render("creategroup.html");
-            }
-        } else
+        app.post(Path.LOGIN, ctx -> handleLoginSubmit(ctx));
+        app.post(Path.CREATE_USER, ctx -> handleCreateUserSubmit(ctx));
+    }
+
+    private void renderCreateUserPage(Context ctx)
+    {
+        ctx.render(ViewPaths.CREATE_USER);
+    }
+
+    private void renderLoginPage(Context ctx)
+    {
+        ctx.render(ViewPaths.LOGIN);
+    }
+
+    private void handleCreateUserSubmit(Context ctx)
+    {
+        String email = ctx.formParam("email").trim().toLowerCase();
+        String username = ctx.formParam("username").trim();
+        String password1 = ctx.formParam("password1").trim();
+        String password2 =  ctx.formParam("password2").trim();
+
+        CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO(
+                email,
+                username,
+                password1,
+                password2
+        );
+
+        try
         {
-            ctx.attribute("message", "Dine to passwords matcher ikke! Prøv igen");
-            ctx.render("creategroup.html");
+             if(userService.registerUser(createUserRequestDTO))
+             {
+                 ctx.sessionAttribute("successMessage", "Du har oprettet en bruger. Log ind for at bruge appen.");
+                 ctx.redirect("/login");
+             }else
+             {
+                 ctx.sessionAttribute("errorMessage","Kunne ikke oprette en bruger prøv igen");
+                 ctx.render("createuser");
+             }
+
+        } catch (DatabaseException e)
+        {
+            ctx.sessionAttribute("errorMessage",e.getMessage());
+            ctx.render("createuser");
+        } catch (IllegalArgumentException e)
+        {
+            ctx.sessionAttribute(e.getMessage());
+            ctx.render("createuser");
         }
-
     }
 
-    private static void logout(Context ctx)
+    private void handleLogout(Context ctx)
     {
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
 
 
-    public static void login(Context ctx)
+    private void handleLoginSubmit(Context ctx)
     {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        String email = ctx.formParam("email").trim().toLowerCase();
+        String password = ctx.formParam("password").trim();
 
+        System.out.println(email);
+        System.out.println(password);
 
-        // Hent form parametre
-        String username = ctx.formParam("username");
-        String password = ctx.formParam("password");
-
-        // Check om bruger findes i DB med de angivne username + password
         try
         {
-            User user = UserMapper.login(username, password);
-            ctx.sessionAttribute("currentUser", user);
-            // Hvis ja, send videre til forsiden med login besked
-            ctx.attribute("message", "Du er nu logget ind");
-            ctx.render("index.html");
+            UserDTO currentUser = userService.authenticate(email, password);
+            if(currentUser != null)
+            {
+                ctx.sessionAttribute("currentUser",currentUser);
+                ctx.redirect("/");
+            }
+            else
+            {
+                ctx.attribute("errorMessage", "Forkert email eller kodeord");
+                ctx.render("login.html");
+            }
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", e.getMessage());
+            ctx.render("login");
         }
-        catch (DatabaseException e)
-        {
-            // Hvis nej, send tilbage til login side med fejl besked
-            ctx.attribute("message", e.getMessage() );
-            ctx.render("index.html");
-        }
+
 
     }
 }

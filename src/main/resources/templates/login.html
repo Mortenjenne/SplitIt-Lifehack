@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SPLITit- log ind</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="header">
+    <nav class="header-nav">
+        <a th:href="@{/public}" class="logo-link">
+            <img th:src="@{/images/logo.svg}" alt="Split it logo" class="logo">
+        </a>
+    </nav>
+</header>
+
+<main>
+    <main>
+        <div class="login-container">
+            <h1>Velkommen til SPLITit</h1>
+            <h2>Log ind eller opret en konto</h2>
+
+            <form th:action="@{/login}" method="post" class="login-form">
+                <div class="login-field">
+                    <label for="email">Email</label>
+                    <input class="login-input" type="text" placeholder="din@email.dk" id="email" name="email">
+                </div>
+
+                <div class="login-field">
+                    <label for="password">Kodeord</label>
+                    <input class="login-input" type="password" placeholder="⁕⁕⁕⁕⁕⁕⁕⁕" id="password" name="password">
+                </div>
+
+                <button type="submit">Log in</button>
+            </form>
+
+            <div th:if="${errorMessage != null}" class="error-succes-label">
+                <p id="error-message" class="error"
+                   th:if="${errorMessage != null}"
+                   th:text="${errorMessage}">
+                </p>
+            </div>
+
+            <div th:if="${session.successMessage}" class="error-success-label">
+                <p class="success" th:text="${session.successMessage}"></p>
+            </div>
+
+
+            <div class="createaccount-link">
+                <label for="createuser">Ingen Konto?</label>
+                <a th:href="@{/create-user}" id="createuser">Opret en her!</a>
+            </div>
+        </div>
+    </main>
+
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-item">
+            <a href="https://github.com/Mortenjenne" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>MORTEN JENSEN</span>
+            </a>
+        </p>
+        <p class="footer-item">
+            <a href="https://github.com/DHangaard" target="_blank" rel="noopener" class="footer-link">
+                <img th:src="@{/images/github-icon.svg}" alt="Github icon" class="github-icon">
+                <span>DANIEL HANGAARD</span>
+            </a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

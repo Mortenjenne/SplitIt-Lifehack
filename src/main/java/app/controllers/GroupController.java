@@ -10,10 +10,10 @@ import io.javalin.http.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplitItGroupController {
+public class GroupController {
     private AccountService accountService;
 
-    public SplitItGroupController(AccountService accountService) {
+    public GroupController(AccountService accountService) {
         this.accountService = accountService;
     }
 

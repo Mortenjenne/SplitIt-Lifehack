@@ -1,17 +1,13 @@
-package app.persistence.splitit;
+package app.persistence;
 
 import app.entities.Group;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.GroupMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GroupMapperTest {
@@ -24,7 +20,7 @@ class GroupMapperTest {
                 "postgres",
                 "postgres",
                 "jdbc:postgresql://localhost:5432/spiltit?currentSchema=test",
-                "spiltit"
+                "spilt-it"
         );
 
         try (Connection con = testPool.getConnection();
